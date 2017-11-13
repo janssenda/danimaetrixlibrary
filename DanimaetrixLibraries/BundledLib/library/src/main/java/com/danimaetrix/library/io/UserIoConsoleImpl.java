@@ -5,9 +5,11 @@
  */
 package com.danimaetrix.library.io;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.io.Console;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  *
@@ -31,7 +33,12 @@ public class UserIoConsoleImpl implements UserIo {
 // | |   | |  | | | | | |_ 
 // |_|   |_|  |_|_| |_|\__|
 //                         
-//                         
+//          
+    @Override
+    public void line() {
+        System.out.println("");
+    }
+
     @Override
     public void print(String msg) {
         System.out.println(msg);
@@ -392,6 +399,34 @@ public class UserIoConsoleImpl implements UserIo {
             String userinput = sc.nextLine();
             return userinput;
         }
+    }
+
+    @Override
+    public LocalDate readDate() {
+        return readDate("");
+    }
+
+    @Override
+    public LocalDate readDate(String msg) {
+        String dateFormat = "MM/dd/yyyy";
+        LocalDate date;
+        boolean valid = false;
+
+        while (!valid){
+            String input = readLine(msg);
+
+            try {
+                date = LocalDate.parse(input, DateTimeFormatter.ofPattern(dateFormat));
+
+
+                return date;
+            } catch (Exception e) {
+                print("\nBad date format! Please use (MM/dd/yyyy)... ");
+            }
+        }
+
+        return null;
+
     }
 
 }
